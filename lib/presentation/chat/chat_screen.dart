@@ -16,6 +16,25 @@ class ChatScreen extends StatelessWidget {
                   "https://indiehoy.com/wp-content/uploads/2021/06/olivia-rodrigo.jpg")),
         ),
       ),
+      body: const _ChatView(),
     );
+  }
+}
+
+class _ChatView extends StatelessWidget {
+  const _ChatView();
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Column(children: [
+        Expanded(child: ListView.builder(itemBuilder: (context, index) {
+          return Text('$index');
+        })),
+        const Text('World')
+      ]),
+    ));
   }
 }
