@@ -20,6 +20,8 @@ class AppTheme {
 
   ThemeData theme() {
     return ThemeData(
-        useMaterial3: true, colorSchemeSeed: _themeColors[selectedColor]);
+        useMaterial3: true,
+        colorSchemeSeed: _themeColors[selectedColor],
+        brightness: Brightness.dark);
   }
 }
