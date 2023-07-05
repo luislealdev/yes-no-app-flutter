@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:yes_no_app_flutter/presentation/widgets/chat/my_message_bubble.dart';
 import 'package:yes_no_app_flutter/presentation/widgets/chat/other_message_bubble.dart';
 import 'package:yes_no_app_flutter/presentation/widgets/shared/message_field_box.dart';
+import 'package:yes_no_app_flutter/domain/entities/Message.dart';
+import 'package:provider/provider.dart';
+import 'package:yes_no_app_flutter/presentation/providers/chat_provider.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -29,17 +33,23 @@ class _ChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final chatProvider = context.watch<ChatProvider>();
+
     return SafeArea(
         child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(children: [
-        Expanded(child: ListView.builder(itemBuilder: (context, index) {
-          return (index % 2 == 0)
-              ? const OtherMessageBubble()
-              : const MyMessageBubble();
+        Expanded(child: ListView.builder(itemCount: chatProvider.messages.length, itemBuilder: (context, index) {
+          final message = chatProvider.messages[index];
+          return (message.fromWho == FromWho.other)
+              ?  OtherMessageBubble(text: message.text)
+              :  MyMessageBubble(text: message.text);
         })),
         //TEXTBOX
-        const MessageFieldBox()
+        MessageFieldBox(
+          onValue: chatProvider.sendMessage
+        )
       ]),
     ));
   }
